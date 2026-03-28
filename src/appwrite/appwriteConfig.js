@@ -8,7 +8,7 @@ export class Service {
     constructor() {
         this.client
             .setEndpoint(config.appwriteUrl)
-            .setProject(config.appwrtieProjectId);
+            .setProject(config.appwriteProjectId);
         this.databases = new Databases(this.client);
         this.bucket = new Storage(this.bucket);
     }
@@ -16,8 +16,8 @@ export class Service {
     async createPost({ title, slug, content, featuredImage, status, userId }) {
         try {
             return await this.databases.createDocument(
-                config.appwrtieDatabaseId,
-                config.appwrtieCollectionId,
+                config.appwriteDatabaseId,
+                config.appwriteCollectionId,
                 slug,
                 {
                     title,
@@ -36,8 +36,8 @@ export class Service {
     async updatePost(slug, { title, content, featuredImage, status }) {
         try {
             return await this.databases.updateDocument(
-                config.appwrtieDatabaseId,
-                config.appwrtieCollectionId,
+                config.appwriteDatabaseId,
+                config.appwriteCollectionId,
                 slug,
                 {
                     title,
@@ -55,8 +55,8 @@ export class Service {
     async deletePost(slug) {
         try {
             await this.databases.updateDocument(
-                config.appwrtieDatabaseId,
-                config.appwrtieCollectionId,
+                config.appwriteDatabaseId,
+                config.appwriteCollectionId,
                 slug
             )
             return true;
@@ -70,8 +70,8 @@ export class Service {
     async getPost(slug) {
         try {
             return await this.databases.getDocument(
-                config.appwrtieDatabaseId,
-                config.appwrtieCollectionId,
+                config.appwriteDatabaseId,
+                config.appwriteCollectionId,
                 slug
             )
         }
@@ -84,8 +84,8 @@ export class Service {
     async getPost(queries = [Query.equal('status', 'active'), Query.limit(10)]) {
         try {
             return await this.databases.listDocuments(
-                config.appwrtieDatabaseId,
-                config.appwrtieCollectionId,
+                config.appwriteDatabaseId,
+                config.appwriteCollectionId,
                 queries
             )
         }
@@ -99,7 +99,7 @@ export class Service {
     async uploadFile(file) {
         try {
             return await this.bucket.createFile(
-                config.appwrtieBucketId,
+                config.appwriteBucketId,
                 ID.unique(),
                 file
             )
@@ -113,7 +113,7 @@ export class Service {
     async deleteFile(fileId) {
         try {
             await this.bucket.createFile(
-                config.appwrtieBucketId,
+                config.appwriteBucketId,
                 fileId
             )
             return true;
@@ -126,7 +126,7 @@ export class Service {
     // file preview service
     getFilePreview(fileId) {
         return this.bucket.getFilePreview(
-            config.appwrtieBucketId,
+            config.appwriteBucketId,
             fileId
         )
     }
